@@ -20,6 +20,8 @@ async function _changePassword(credentialKey:CryptoKey|null, newPassword:string,
   setStatusText('Sensitive data re-encrypted with credentials.');
 }
 
+// Disable linting on "no-control-regex" because these "unprintable" ranges are necessary and not the mistake the rule aimed to prevent.
+// eslint-disable-next-line no-control-regex
 const UNPRINTABLE_CHARS_REGEX = /[\x00\x08\x0B\x0C\x0E-\x1F]/;
 function _isItProbablyPlaintext(text:string) { // False positives are infrequent but definitely expected.
   return !UNPRINTABLE_CHARS_REGEX.test(text);
