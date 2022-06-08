@@ -1,8 +1,8 @@
 import { generateCredentialKey, loadStoreFromAppData, saveStoreToAppData, updateForPasswordChange } from './encAtRest';
-import { deleteDatabase } from './database';
+import { deleteDatabase, doesDatabaseExist } from './database';
 import styles from './App.module.css';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 async function _deleteData(setCredentialKey:any):Promise<void> {
   await deleteDatabase();
@@ -68,10 +68,17 @@ function App() {
   const [newPassword, setNewPassword] = useState<string>('');
   const [store, setStore] = useState<any>({});
   const [statusText, setStatusText] = useState<string|null>(null);
+  const [hasAccount, setHasAccount] = useState<boolean|null>(null);
 
   const isLoggedIn = credentialKey !== null;
 
   const statusBar = statusText === null ? null : <h1>{statusText}</h1>;
+  
+  useEffect(() => {
+    if (hasAccount === null) doesDatabaseExist().then(databaseExists => setHasAccount(databaseExists));
+  }, [hasAccount]);
+  if (hasAccount === null) return null; // A very short initial rendering blink while waiting for data.
+  const createOrLoginButtonText = hasAccount ? 'Login' : 'Create Account';
 
   const interior = isLoggedIn ? (
     <React.Fragment>
@@ -89,7 +96,7 @@ function App() {
       <p>
         Username: <input type='text' onChange={event => setUserName(event.target.value)} value={userName}/>&nbsp;
         Password: <input type='password' autoComplete='password' onChange={event => setPassword(event.target.value) } value={password}/> 
-        <button onClick={() => _login(userName, password, setCredentialKey, setStore, setStatusText)}>Log In</button>
+        <button onClick={() => _login(userName, password, setCredentialKey, setStore, setStatusText)}>{createOrLoginButtonText}</button>
       </p>
     );
 
@@ -97,7 +104,7 @@ function App() {
     <div className={styles.app}>
       {statusBar}
       {interior}
-      <p><button onClick={() => _deleteData(setCredentialKey)}>Clear IndexedDB Storage for this Domain</button></p>
+      <p><button onClick={() => _deleteData(setCredentialKey)}>Clear IndexedDB Storage for this app</button><br />(Useful if you forget the password.)</p>
     </div>
   );
 }

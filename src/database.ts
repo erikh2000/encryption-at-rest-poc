@@ -127,3 +127,9 @@ export async function putAppData(appData:IAppData):Promise<void> {
   const db = await _open(DB_NAME, SCHEMA);
   return _put(db, APP_DATA_STORE, appData);
 }
+
+export async function doesDatabaseExist():Promise<boolean> {
+  const dbInfos:IDBDatabaseInfo[] = await indexedDB.databases();
+  const found = dbInfos.find(dbInfo => dbInfo.name === DB_NAME);
+  return found !== undefined;
+}

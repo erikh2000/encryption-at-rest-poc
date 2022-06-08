@@ -1,0 +1,8 @@
+{
+  "short_name": "Enc-at-Rest POC",
+  "name": "Encryption-at-Rest for Web POC",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
