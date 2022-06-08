@@ -1,0 +1,18 @@
+.app {
+  padding: 2rem;
+}
+
+.app p {
+  background-color:#f3f3f3;
+  padding: 1rem;
+  padding-bottom: 2rem;
+}
+
+.app button {
+  min-width: 8rem;
+  float: right;
+}
+
+.app textarea {
+  width: 100%;
+}
