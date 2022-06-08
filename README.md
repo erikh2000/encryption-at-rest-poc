@@ -13,7 +13,7 @@ I wrote a detailed explanation of the architecture in this article: https://medi
 
 ## Try the Web App
 
-You can just go TODO-ADD-LINK to see what the app does.
+You can just go https://seespacelabs.com/enc-at-rest to see what the app does.
 
 And if you're confused about the app, see that article linked above. You'll be amazed at how thoroughly the app is explained there.
 
