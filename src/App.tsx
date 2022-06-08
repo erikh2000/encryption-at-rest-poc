@@ -27,7 +27,7 @@ function _isItProbablyPlaintext(text:string) { // False positives are infrequent
   return !UNPRINTABLE_CHARS_REGEX.test(text);
 }
 
-async function _login(userName:string, password:string, setCredentialKey:any, setStore:any, setStatusText:any):Promise<void> {
+async function _login(userName:string, password:string, setCredentialKey:any, setStore:any, setHasAccount:any, setStatusText:any):Promise<void> {
   // No actual authentication performed here for simplicity's sake. But easily extensible.
   setStatusText('');
   try {
@@ -37,6 +37,7 @@ async function _login(userName:string, password:string, setCredentialKey:any, se
       setStatusText('You probably entered the wrong password.');
       return;
     }
+    setHasAccount(true);
     setCredentialKey(credentialKey);
     setStore(nextStore);
   } catch(e) { // Sometimes a derived key from a wrong password will cause Web Crypto to throw.
@@ -96,7 +97,7 @@ function App() {
       <p>
         Username: <input type='text' onChange={event => setUserName(event.target.value)} value={userName}/>&nbsp;
         Password: <input type='password' autoComplete='password' onChange={event => setPassword(event.target.value) } value={password}/> 
-        <button onClick={() => _login(userName, password, setCredentialKey, setStore, setStatusText)}>{createOrLoginButtonText}</button>
+        <button onClick={() => _login(userName, password, setCredentialKey, setStore, setHasAccount, setStatusText)}>{createOrLoginButtonText}</button>
       </p>
     );
 
